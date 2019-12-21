@@ -7,11 +7,11 @@ function Page2(props) {
   } else {
     return(
       <div className="form-group">
-        <label htmlFor="email">Email address</label>
+        <label htmlFor="number">Number</label>
         <input
           className="form-control"
-          id="email"
-          name="email"
+          id="number"
+          name="number"
           type="text"
           placeholder="Enter email"
           onChange={props.handleChange} // Prop: Puts data into state
