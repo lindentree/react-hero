@@ -11,9 +11,11 @@ export default class MasterForm extends React.Component {
       userExists: false,
       currentPage: 1, 
       formData: {
-        "1": {},
-        "2": {},
-        "3": {}
+        "1.1": {},
+        "1.2": {},
+        "1.3": {},
+        "2.1": {},
+        "2.2": []
       }
     }
     // Bind the submission to handleChange() 
