@@ -6,7 +6,7 @@ function Page2(props) {
       return null
   } else {
     return(
-      <div class = "question">
+      <div className = "question">
           Q3. Complete table below with each staff member that has interacted with the subject during the visit.
       </div>
     )

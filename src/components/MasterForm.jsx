@@ -12,16 +12,16 @@ export default class MasterForm extends React.Component {
       userExists: false,
       currentPage: 1, 
       formData: {
-        userid: 'AB001',
-        "1.1": null,
-        "1.2": null,
-        "1.3": null,
-        "2.1": null,
+        userid: '',
+        "1.1": '',
+        "1.2": '',
+        "1.3": '',
+        "2.1": '',
         "2.2": []
       }
     }
     // Bind the submission to handleChange() 
-    this.handleUser = this.handleUser.bind(this)
+    this.handleUserID = this.handleUserID.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
@@ -79,10 +79,14 @@ get nextButton(){
 
   // Use the submitted data to set the state
   handleChange(event) {
-    const {name, value} = event.target
+    const {name, value} = event.target;
+    const formData = {...this.state.formData};
+    formData[name] = value;
+
     this.setState({
-      [name]: value
-    })    
+      formData
+    }, () => console.log(formData))
+        
   }
   
   // Trigger an alert on form submission
@@ -92,13 +96,13 @@ get nextButton(){
     
   }
 
-  handleUser = async () => {
+  handleUserID = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/json/${this.state.formData.userid}`)
     console.log(data.data);
   }
 
   componentDidMount() {
-    this.handleUser();
+    this.handleUserID();
   }
   
   render() {    
@@ -111,7 +115,6 @@ get nextButton(){
      <form onSubmit={this.handleSubmit}>
   
       <Page1 
-        id={this.state.formData.userid}
         currentPage={this.state.currentPage} 
         handleChange={this.handleChange}
         data={this.state.formData}

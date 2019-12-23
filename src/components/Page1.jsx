@@ -7,13 +7,13 @@ function Page1(props) {
   } else {
     return(
       <div>
-        <div id = "subjectid" handleChange={props.handleChange}> 
-          Subject ID: <input type="text" name="sid" value={props.userid}/> 
+        <div id = "subjectid" > 
+          Subject ID: <input type="text" name="userid" defaultValue={props.userid} onChange={props.handleChange}/> 
         </div>
-        <div class = "question">  
-          Q1. Date of subject arrival/registration at clinic: <input type="date" name="q1" min="2019-12-01" max="2022-12-31"/>  
+        <div className = "question">  
+          Q1. Date of subject arrival/registration at clinic: <input type="date" name="1.1" min="2019-12-01" max="2022-12-31" defaultValue={props.data['1.1']} onChange={props.handleChange}/>  
         </div>
-        
+
       </div>
     )
   }
