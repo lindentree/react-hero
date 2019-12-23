@@ -1,24 +1,27 @@
 import React from 'react';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
+import axios from 'axios';
+
 
 export default class MasterForm extends React.Component {
   constructor(props) {
     super(props)
     // Set the initial input values
     this.state = {
-      id: null,
       userExists: false,
       currentPage: 1, 
       formData: {
-        "1.1": {},
-        "1.2": {},
-        "1.3": {},
-        "2.1": {},
+        userid: 'AB001',
+        "1.1": null,
+        "1.2": null,
+        "1.3": null,
+        "2.1": null,
         "2.2": []
       }
     }
     // Bind the submission to handleChange() 
+    this.handleUser = this.handleUser.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
@@ -42,6 +45,38 @@ export default class MasterForm extends React.Component {
     })
   }
 
+  get previousButton(){
+  let currentPage = this.state.currentPage;
+  // If the current step is not 1, then render the "previous" button
+  if(currentPage !==1){
+    return (
+      <button 
+        className="btn btn-secondary" 
+        type="button" onClick={this._prev}>
+      Previous
+      </button>
+    )
+  }
+  // ...else return nothing
+  return null;
+}
+
+get nextButton(){
+  let currentPage = this.state.currentPage;
+  // If the current step is not 3, then render the "next" button
+  if(currentPage <3){
+    return (
+      <button 
+        className="btn btn-primary float-right" 
+        type="button" onClick={this._next}>
+      Next
+      </button>        
+    )
+  }
+  // ...else render nothing
+  return null;
+}
+
   // Use the submitted data to set the state
   handleChange(event) {
     const {name, value} = event.target
@@ -56,25 +91,39 @@ export default class MasterForm extends React.Component {
     //const { email, username, password } = this.state
     
   }
+
+  handleUser = async () => {
+    const data = await axios.get(`http://127.0.0.1:5000/json/${this.state.formData.userid}`)
+    console.log(data.data);
+  }
+
+  componentDidMount() {
+    this.handleUser();
+  }
   
   render() {    
     return (
       <React.Fragment>
       <h1>A Wizard Form!</h1>
+      
       <p>Step {this.state.currentPage} </p> 
     
      <form onSubmit={this.handleSubmit}>
   
       <Page1 
+        id={this.state.formData.userid}
         currentPage={this.state.currentPage} 
         handleChange={this.handleChange}
-        data={this.state.formData['1']}
+        data={this.state.formData}
       />
       <Page2 
         currentPage={this.state.currentPage} 
         handleChange={this.handleChange}
-        data={this.state.formData['2']}
+        data={this.state.formData}
       />
+
+      {this.previousButton}
+      {this.nextButton}
            
 
   </form>

@@ -6,16 +6,14 @@ function Page1(props) {
       return null
   } else {
     return(
-      <div className="form-group">
-        <label htmlFor="email">Email address</label>
-        <input
-          className="form-control"
-          id="email"
-          name="email"
-          type="text"
-          placeholder="Enter email"
-          onChange={props.handleChange} // Prop: Puts data into state
-        />
+      <div>
+        <div id = "subjectid" handleChange={props.handleChange}> 
+          Subject ID: <input type="text" name="sid" value={props.userid}/> 
+        </div>
+        <div class = "question">  
+          Q1. Date of subject arrival/registration at clinic: <input type="date" name="q1" min="2019-12-01" max="2022-12-31"/>  
+        </div>
+        
       </div>
     )
   }
