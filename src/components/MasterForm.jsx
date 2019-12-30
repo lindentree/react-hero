@@ -17,11 +17,14 @@ export default class MasterForm extends React.Component {
         "1.2": '',
         "1.3": '',
         "2.1": '',
-        "2.2": []
+        "2.2": [],
+        "2.3": [],
+        "3.1": '',
+        "3.2": ''
       }
     }
     // Bind the submission to handleChange() 
-    this.handleUserID = this.handleUserID.bind(this)
+    this.checkUserID = this.checkUserID.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this._next = this._next.bind(this)
     this._prev = this._prev.bind(this)
@@ -88,6 +91,12 @@ get nextButton(){
     }, () => console.log(formData))
         
   }
+
+  handleUserIDSubmit = (event) => {
+    event.preventDefault()
+    //const { email, username, password } = this.state
+    
+  }
   
   // Trigger an alert on form submission
   handleSubmit = (event) => {
@@ -96,13 +105,13 @@ get nextButton(){
     
   }
 
-  handleUserID = async () => {
+  checkUserID = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/json/${this.state.formData.userid}`)
     console.log(data.data);
   }
 
   componentDidMount() {
-    this.handleUserID();
+    this.checkUserID();
   }
   
   render() {    
