@@ -1,6 +1,7 @@
 import React from 'react';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
+import Page3 from './Page3.jsx';
 import axios from 'axios';
 
 
@@ -24,10 +25,11 @@ export default class MasterForm extends React.Component {
       }
     }
     // Bind the submission to handleChange() 
-    this.checkUserID = this.checkUserID.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this._next = this._next.bind(this)
-    this._prev = this._prev.bind(this)
+    this.checkUserID = this.checkUserID.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this._next = this._next.bind(this);
+    this._prev = this._prev.bind(this);
   }
 
   _next() {
@@ -91,27 +93,43 @@ get nextButton(){
     }, () => console.log(formData))
         
   }
-
-  handleUserIDSubmit = (event) => {
-    event.preventDefault()
-    //const { email, username, password } = this.state
-    
-  }
   
   // Trigger an alert on form submission
   handleSubmit = (event) => {
-    event.preventDefault()
-    //const { email, username, password } = this.state
+    event.preventDefault();
+    const form = this.state.formData;
+    axios.post('http://127.0.0.1:5000/socenter', form)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        alert(err); //See this error
+      });
     
   }
 
-  checkUserID = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/json/${this.state.formData.userid}`)
-    console.log(data.data);
+  checkUserID = async (event) => {
+    event.preventDefault();
+    const userid = event.target;
+    console.log(userid)
+    const database = await axios.get(`http://127.0.0.1:5000/json/${userid}`)
+    console.log(database);
+    let form = database.data;
+      if (form) {
+        alert(form)
+      } else {
+        alert("Not in system")
+      }
+  }
+
+  getUserInfo = () => {
+
   }
 
   componentDidMount() {
-    this.checkUserID();
+    
   }
   
   render() {    
@@ -126,6 +144,7 @@ get nextButton(){
       <Page1 
         currentPage={this.state.currentPage} 
         handleChange={this.handleChange}
+        checkUserID={this.checkUserID}
         data={this.state.formData}
       />
       <Page2 
@@ -137,7 +156,7 @@ get nextButton(){
       {this.previousButton}
       {this.nextButton}
            
-
+      <input type="submit" value="Submit" />
   </form>
   </React.Fragment>
 )
