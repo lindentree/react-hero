@@ -4,6 +4,13 @@ import Page2 from './Page2.jsx';
 import Page3 from './Page3.jsx';
 import axios from 'axios';
 
+let sampleForm = {
+   userid: 'AB10005',
+   "1.1": "12/24/19"
+
+
+}
+
 
 export default class MasterForm extends React.Component {
   constructor(props) {
@@ -13,7 +20,7 @@ export default class MasterForm extends React.Component {
       userExists: false,
       currentPage: 1, 
       formData: {
-        userid: '',
+        userid: 'AB001',
         "1.1": '',
         "1.2": '',
         "1.3": '',
@@ -97,6 +104,7 @@ get nextButton(){
   // Trigger an alert on form submission
   handleSubmit = (event) => {
     event.preventDefault();
+    this.setState({formData:sampleForm})
     const form = this.state.formData;
     axios.post('http://127.0.0.1:5000/socenter', form)
       .then(res => {
@@ -112,13 +120,14 @@ get nextButton(){
 
   checkUserID = async (event) => {
     event.preventDefault();
-    const userid = event.target;
-    console.log(userid)
+    const userid = this.state.formData.userid;
+    //console.log(userid)
     const database = await axios.get(`http://127.0.0.1:5000/json/${userid}`)
-    console.log(database);
+    console.log('test', database);
     let form = database.data;
       if (form) {
         alert(form)
+        this.setState({formData: form});
       } else {
         alert("Not in system")
       }
@@ -138,6 +147,11 @@ get nextButton(){
       <h1>A Wizard Form!</h1>
       
       <p>Step {this.state.currentPage} </p> 
+      <button 
+        className="btn btn-secondary" 
+        type="button" onClick={this.checkUserID}>
+        Check UserID
+      </button>
     
      <form onSubmit={this.handleSubmit}>
   
